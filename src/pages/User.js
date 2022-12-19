@@ -1,7 +1,12 @@
+import { useState } from "react";
+
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import "firebase/compat/firestore";
+
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+
 import "./User.css";
 
 // Your web app's Firebase configuration
@@ -17,21 +22,54 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.firestore();
 
 function SignIn() {
     const signInWithGoogle = () => {
         alert("Please Sign In with your School Account.");
-        const provider = new GoogleAuthProvider();
+        const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider);
     };
     return <button onClick={signInWithGoogle}>signIn</button>;
+}
+
+function Token() {
+    const [user] = useAuthState(auth);
+    const studentNumber = user.email.replace(/@.*$/, "").slice(2);
+
+    const [tokenValue, setTokenValue] = useState("");
+
+    var docRef = db.collection("token").doc(studentNumber);
+    const addNew = async () => {
+        await docRef.set({
+            token: 0,
+        });
+    };
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            setTokenValue(doc.data().token);
+            console.log(tokenValue);
+        } else {
+            addNew();
+            setTokenValue(0);
+            console.log("Add new");
+        }
+    });
+    return <p>{tokenValue} tokens</p>;
 }
 
 function User() {
     const [user] = useAuthState(auth);
     return (
         <>
-            {user ? <>{user.email.replace(/@.*$/, "").slice(2)}</> : <SignIn />}
+            {user ? (
+                <>
+                    <p>{user.email.replace(/@.*$/, "").slice(2)}</p>
+                    <Token />
+                </>
+            ) : (
+                <SignIn />
+            )}
         </>
     );
 }
