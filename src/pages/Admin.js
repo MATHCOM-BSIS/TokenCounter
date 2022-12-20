@@ -30,6 +30,7 @@ function InputForm() {
         docRef.get().then((doc) => {
             if (doc.exists) {
                 docRef.set({
+                    stnum: st_num,
                     token: doc.data().token + parseInt(tokenInput),
                 });
             } else {

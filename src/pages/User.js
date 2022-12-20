@@ -58,6 +58,22 @@ function Token() {
     return <p>{tokenValue} tokens</p>;
 }
 
+function Rank() {
+    const Ref = db.collection("token");
+    const query = Ref.orderBy("token");
+    const [tokens] = useCollectionData(query, { idField: "id" });
+    return (
+        <>
+            {tokens &&
+                tokens.map((Token) => (
+                    <p>
+                        {Token.stnum} - {Token.token} Tokens
+                    </p>
+                ))}
+        </>
+    );
+}
+
 function User() {
     const [user] = useAuthState(auth);
     return (
@@ -66,6 +82,7 @@ function User() {
                 <>
                     <p>{user.email.replace(/@.*$/, "").slice(2)}</p>
                     <Token />
+                    <Rank />
                 </>
             ) : (
                 <SignIn />
