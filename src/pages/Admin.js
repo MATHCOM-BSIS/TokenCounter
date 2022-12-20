@@ -42,8 +42,8 @@ function InputForm() {
     };
     return (
         <>
-            <input type="text" id="st_number"></input>
-            <input type="text" id="token"></input>
+            <input type="text" placeholder="Student ID" id="st_number"></input>
+            <input type="text" placeholder="Modificaiton" id="token"></input>
             <button onClick={update}>Submit</button>
         </>
     );
@@ -52,6 +52,7 @@ function InputForm() {
 function Admin() {
     return (
         <>
+            <p className="title">ADMIN</p>
             <InputForm />
         </>
     );
