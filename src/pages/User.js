@@ -42,6 +42,7 @@ function Token() {
     var docRef = db.collection("token").doc(studentNumber);
     const addNew = async () => {
         await docRef.set({
+            stnum: studentNumber,
             token: 0,
         });
     };
@@ -63,7 +64,7 @@ function Token() {
 
 function Rank() {
     const Ref = db.collection("token");
-    const query = Ref.orderBy("token");
+    const query = Ref.orderBy("token", "desc").limit(5);
     const [tokens] = useCollectionData(query, { idField: "id" });
     return (
         <div className="ranking">
