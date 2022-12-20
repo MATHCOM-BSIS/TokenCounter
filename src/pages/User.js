@@ -30,7 +30,7 @@ function SignIn() {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider);
     };
-    return <button onClick={signInWithGoogle}>signIn</button>;
+    return <button onClick={signInWithGoogle} className="signIn">Sign in With Google</button>;
 }
 
 function Token() {
