@@ -56,8 +56,8 @@ function Token() {
         }
     });
     return (<div className="userToken">
-        <p class="userToken__num">{tokenValue}</p>
-        <p class="userToken__text">tokens</p>
+        <p className="userToken__num">{tokenValue}</p>
+        <p className="userToken__text">tokens</p>
     </div>);
 }
 
