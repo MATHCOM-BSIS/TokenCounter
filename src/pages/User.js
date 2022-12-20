@@ -55,7 +55,10 @@ function Token() {
             console.log("Add new");
         }
     });
-    return <p>{tokenValue} tokens</p>;
+    return (<div className="userToken">
+        <p class="userToken__num">{tokenValue}</p>
+        <p class="userToken__text">tokens</p>
+    </div>);
 }
 
 function Rank() {
@@ -63,14 +66,15 @@ function Rank() {
     const query = Ref.orderBy("token");
     const [tokens] = useCollectionData(query, { idField: "id" });
     return (
-        <>
+        <div className="ranking">
+            <p className="ranking__title">Token Ranking</p>
             {tokens &&
-                tokens.map((Token) => (
-                    <p>
-                        {Token.stnum} - {Token.token} Tokens
+                tokens.map((Token, index) => (
+                    <p className="ranking__item">
+                        {index+1}. {Token.stnum} - {Token.token} Tokens
                     </p>
                 ))}
-        </>
+        </div>
     );
 }
 
@@ -80,8 +84,9 @@ function User() {
         <>
             {user ? (
                 <>
-                    <p>{user.email.replace(/@.*$/, "").slice(2)}</p>
+                    <p className="userName">{user.email.replace(/@.*$/, "").slice(2)} {user.displayName.slice(5)}</p>
                     <Token />
+                    <div className="divider"></div>
                     <Rank />
                 </>
             ) : (
