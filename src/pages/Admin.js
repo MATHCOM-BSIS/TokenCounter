@@ -23,26 +23,26 @@ const db = firebase.firestore();
 
 function InputForm() {
     const update = async () => {
-        var st_num = document.getElementById("st_number").value;
+        var st_name = document.getElementById("st_name").value;
         var tokenInput = document.getElementById("token").value;
 
-        var docRef = db.collection("token").doc(st_num);
+        var docRef = db.collection("token").doc(st_name);
         docRef.get().then((doc) => {
             if (doc.exists) {
                 docRef.set({
-                    stnum: st_num,
+                    name: st_name,
                     token: doc.data().token + parseInt(tokenInput),
                 });
             } else {
                 alert("User not available");
             }
         });
-        document.getElementById("st_number").value = "";
+        document.getElementById("st_name").value = "";
         document.getElementById("token").value = "";
     };
     return (
         <>
-            <input type="text" placeholder="Student ID" id="st_number"></input>
+            <input type="text" placeholder="Student Name" id="st_name"></input>
             <input type="text" placeholder="Modificaiton" id="token"></input>
             <button onClick={update}>Submit</button>
         </>

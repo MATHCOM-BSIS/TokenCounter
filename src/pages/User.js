@@ -35,14 +35,14 @@ function SignIn() {
 
 function Token() {
     const [user] = useAuthState(auth);
-    const studentNumber = user.email.replace(/@.*$/, "").slice(2);
+    const studentName = user.displayName;
 
     const [tokenValue, setTokenValue] = useState("");
 
-    var docRef = db.collection("token").doc(studentNumber);
+    var docRef = db.collection("token").doc(studentName);
     const addNew = async () => {
         await docRef.set({
-            stnum: studentNumber,
+            name: studentName,
             token: 0,
         });
     };
@@ -72,7 +72,7 @@ function Rank() {
             {tokens &&
                 tokens.map((Token, index) => (
                     <p className="ranking__item">
-                        {index+1}. {Token.stnum} - {Token.token} Tokens
+                        {index+1}. {Token.name} - {Token.token} Tokens
                     </p>
                 ))}
         </div>
@@ -85,7 +85,7 @@ function User() {
         <>
             {user ? (
                 <>
-                    <p className="userName">{user.email.replace(/@.*$/, "").slice(2)} {user.displayName.slice(5)}</p>
+                    <p className="userName">{user.displayName}</p>
                     <Token />
                     <div className="divider"></div>
                     <Rank />
